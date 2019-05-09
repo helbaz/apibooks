@@ -11,8 +11,11 @@ def get_image_path(instance, filename):
 # Create your models here.
 class Usuarios(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
-    imagen_perfil = models.ImageField(upload_to=get_image_path, blank=True, null=True, default='/static'
+    imagen_perfil = models.ImageField(upload_to=get_image_path, blank=True, null=True, default='static'
                                                                                                '/default_profile.png')
+
+    def __unicode__(self):
+        return self.usuario.username
 
     class Meta:
         verbose_name = 'Usuario'

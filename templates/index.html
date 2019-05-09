@@ -2,13 +2,22 @@
 {% block body %}
 <div class="container">
     <div class="col-md-12 mt-5" align="center">
+        {% if libros %}
         <div class="slick">
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-        </div>
+
+            {% for libro in libros %}
+                <div class="row">
+                    <div class="col-md-12"><img class="carousel-img" src="media/{{ libro.imagen_perfil }}" alt="{{ libro.titulo }}"></div>
+                    <div class="col-md-12"><a href="#">{{ libro.titulo }}</a></div>
+                </div>
+            {% endfor %}
+            </div>
+        {% else %}
+            <h1>No hi ha llibres disponibles actualment</h1>
+        {% endif %}
+    </div>
+    <div class="col-md-12 mt-5" align="center">
+
     </div>
 </div>
     <script>
