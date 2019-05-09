@@ -1,0 +1,27 @@
+{% extends 'base_home.html' %}
+{% block body %}
+<div class="container">
+    <div class="col-md-12 mt-5" align="center">
+        <div class="slick">
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+        </div>
+    </div>
+</div>
+    <script>
+    $('.slick').slick({
+        arrows: true,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        dots: true,
+        speed: 700
+    });
+
+</script>
+{% endblock %}
