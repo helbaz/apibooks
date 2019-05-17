@@ -1,0 +1,54 @@
+{% extends 'base_home.html' %}
+{#{% block body %}#}
+{#    <div class="container mt-5 mb-5">#}
+{#        <div class="p-5 w-50 m-auto user-form" align="center">#}
+{#            <form action="{% url 'perfil' %}" method="post" class="mb-3" enctype="multipart/form-data">#}
+{#                {% csrf_token %}#}
+{#                <div class="d-block form-group mt-2">#}
+{#                    <label for="nickname" class="float-left">Nom d'usuari</label>#}
+{#                    {{ form.nickname }}#}
+{#                </div>#}
+{#                <div class="d-block form-group mt-2">#}
+{#                    <label for="imagen" class="float-left">Imatge de perfil</label>#}
+{#                    {{ form.imagen_perfil }}#}
+{#                </div>#}
+{#                <button class="btn btn-primary">Actualitzar</button>#}
+{#            </form>#}
+{#            {{ form.non_field_errors }}#}
+{#        </div>#}
+{#    </div>#}
+{#    <script>#}
+{#        $("#id_nickname").addClass("form-control").val("{{ user.nickname }}")#}
+{#    </script>#}
+{#{% endblock %}#}
+{% block body %}
+    <div class="row perfil">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="w-50 bg-primary-50 p-3 col-md-12 mb-5" align="center">
+                    <h1 class="h1-perfil">Editar perfil</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="p-5 w-50 m-auto user-form bg-primary" align="center">
+                <form action="{% url 'perfil' %}" method="post" class="mb-3" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="d-block form-group mt-2">
+                        <label for="nickname" class="float-left text-white">Nom d'usuari</label>
+                        {{ form.nickname }}
+                    </div>
+                    <div class="d-block form-group mt-2">
+                        <label for="imagen" class="float-left text-white">Imatge de perfil</label><br>
+                        <input type="file" name="imagen_perfil" id="id_imagen_perfil">
+                    </div>
+                    <button class="btn btn-primary"><i class="far fa-edit mr-1"></i>Actualitzar</button>
+                </form>
+                {{ form.non_field_errors }}
+            </div>
+        </div>
+    </div>
+    <script>
+    $("#id_nickname").addClass("form-control").val("{{ user.nickname }}")
+    </script>
+{% endblock %}

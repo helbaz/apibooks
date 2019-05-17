@@ -29,7 +29,7 @@ class Generos(models.Model):
 class Libros(models.Model):
     titulo = models.CharField(max_length=100, blank=False, null=False)
     descripcion = models.CharField(max_length=500, blank=False, null=False)
-    generos = models.ManyToManyField(Generos, null=True, blank=True)
+    generos = models.ManyToManyField(Generos, blank=True)
     autor = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(default=timezone.now)
     imagen_perfil = models.ImageField(upload_to=get_image_path, blank=True, null=True, default='static'
@@ -46,7 +46,7 @@ class Libros(models.Model):
 class Capitulos(models.Model):
     titulo = models.CharField(max_length=100, blank=False, null=False)
     num_capitulo = models.IntegerField(blank=False, null=False)
-    contenido = models.CharField(max_length=100, blank=False, null=False)
+    contenido = models.TextField(max_length=100, blank=False, null=False)
     libro = models.ForeignKey(Libros)
     fecha_creacion = models.DateTimeField(default=timezone.now)
 

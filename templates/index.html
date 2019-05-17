@@ -1,10 +1,10 @@
 {% extends 'base_home.html' %}
 {% block body %}
 <div class="container">
-    <div class="col-md-12 mt-5" align="center">
+    <div class="col-md-12" align="center">
         {% if libros %}
-        <div class="slick">
-
+            <div class="col-md-12 mt-5 bg-primary text-white"><h3 class="pt-3 pb-3 pl-1 pr-1 mb-0" align="center">Últims llibres afegits</h3></div>
+        <div class="slick border">
             {% for libro in libros %}
                 <div class="row">
                     <div class="col-md-12"><img class="carousel-img" src="media/{{ libro.imagen_perfil }}" alt="{{ libro.titulo }}"></div>
@@ -17,7 +17,23 @@
         {% endif %}
     </div>
     <div class="col-md-12 mt-5" align="center">
-
+        <ul class="list-group">
+            {% if capitulos %}
+                <li class="list-group-item chapter-list bg-primary text-white">
+                    <h3>Últims capítols</h3>
+                </li>
+                {% for capitulo in capitulos %}
+                    <li class="list-group-item chapter-list">
+                        <div class="row">
+                            <div class="col-md-3"><img src="media/{{ capitulo.libro.imagen_perfil }}" alt="{{ capitulo.titulo }}" class="latest_chap_img"></div>
+                            <div class="col-md-9 align-middle">[{{ capitulo.libro.titulo }}] Capítol {{ capitulo.num_capitulo }}: {{ capitulo.titulo }}</div>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item text-center"><h1>No hi ha capituls disponibles</h1></li>
+            {% endif %}
+        </ul>
     </div>
 </div>
     <script>
@@ -29,7 +45,9 @@
         autoplay: true,
         autoplaySpeed: 2000,
         dots: true,
-        speed: 700
+        speed: 1100,
+        prevArrow: false,
+        nextArrow: false
     });
 
 </script>

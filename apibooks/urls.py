@@ -17,6 +17,8 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
+from libros.views import *
+from usuarios.views import *
 from django.contrib.auth.views import logout
 from django.contrib.auth import views as auth_views
 
@@ -25,5 +27,10 @@ from libros.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', index, name='index')
+    url(r'^$', view_index, name='index'),
+    url(r'registre', view_registre, name='registre'),
+    url(r'^logout/$', logout, {'next_page': 'index'}, name='sortir'),
+    url(r'^login/$', auth_views.login, {'template_name': 'login.html', 'redirect_authenticated_user': True, 'extra_context':{'title':'Inicia sessio'}}, name='login'),
+    url(r'^perfil', view_perfil, name='perfil'),
+    url(r'^publicar', view_publicar, name='publicar')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -2,28 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ titulo }}</title>
+    {% if request.path == '/registre' %}
+        <title>Registrat | Apibooks, la teva pàgina de llibres</title>
+    {% elif request.path == '/login/' %}
+        <title>Inicia sessio | Apibooks, la teva pàgina de llibres</title>
+    {% else %}
+        <title>{{ titulo }}</title>
+    {% endif %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     {% load static %}
+    <script src="{% static 'lib/slick/slick.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/slick/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/slick/slick-theme.css' %}">
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="{% url 'index' %}">ApiBooks</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#">Inici</a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link text-white" href="{% url 'index' %}">Inici</a>
             </li>
@@ -36,16 +40,62 @@
         </ul>
         <div class="form-inline my-2 my-lg-0 registre navbar-item">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Inicia sessió</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Registra't</a>
-                </li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item span nav-link text nounderline">
+                        <div class="btn btn-light"><a class="text-white" href="#" style="color: #6495ED !important;"><i class="fas fa-book-open mr-1"></i><a
+                                href="{% url 'publicar' %}">Publicar</a></a></div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="panel-usuario" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <img src="media/{{ user.imagen_perfil }}" class="img-navbar" alt="Imatge de perfil">{{ user.nickname }}
+                        </a>
+                        <div class="dropdown-menu bg-primary bg-primary" aria-labelledby="panel-usuario">
+                          <a class="dropdown-item text-white bg-primary" href="{% url 'perfil' %}">Editar perfil</a>
+                          <a class="dropdown-item text-white bg-primary" href="{% url 'sortir' %}">Sortir<i class="fas fa-sign-out-alt ml-1"></i></a>
+                        </div>
+                      </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'login' %}">Inicia sessió</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'registre' %}">Registra't</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
 </nav>
-{% block body %}{% endblock %}
+<div class="body">
+    {% block body %}{% endblock %}
+</div>
+<footer class="footer bg-dark text-white mt-5">
+    <div class="container pt-5 pb-5">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>Pàgines d'interes</h5>
+                <ul>
+                    <li><a href="#">Inici</a></li>
+                    <li><a href="#">Explorar</a></li>
+                    <li><a href="#">Qui som</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Contacta'ns</h5>
+                <ul>
+                    <li><a href="#">Formulari de contacte</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Xarxes socials</h5>
+                <div class="social-media" align="center">
+                    <a href="#"><i class="fab fa-facebook-square"></i></a>
+                    <a href="#"><i class="fab fa-twitter-square"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
