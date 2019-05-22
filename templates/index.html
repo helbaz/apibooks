@@ -1,14 +1,14 @@
 {% extends 'base_home.html' %}
 {% block body %}
-<div class="container">
-    <div class="col-md-12" align="center">
+<div class="container bg-light pt-1 pb-3 mt-3">
+    <div class="col-md-12 bg-white-50" align="center">
         {% if libros %}
             <div class="col-md-12 mt-5 bg-primary text-white"><h3 class="pt-3 pb-3 pl-1 pr-1 mb-0" align="center">Últims llibres afegits</h3></div>
         <div class="slick border">
             {% for libro in libros %}
                 <div class="row">
                     <div class="col-md-12"><img class="carousel-img" src="media/{{ libro.imagen_perfil }}" alt="{{ libro.titulo }}"></div>
-                    <div class="col-md-12"><a href="#">{{ libro.titulo }}</a></div>
+                    <div class="col-md-12"><a href="{% url 'ver_libro' libro.pk %}">{{ libro.titulo }}</a></div>
                 </div>
             {% endfor %}
             </div>
@@ -47,8 +47,8 @@
         dots: true,
         speed: 1100,
         prevArrow: false,
-        nextArrow: false
+        nextArrow: false,
+        adaptiveHeight: true
     });
-
 </script>
 {% endblock %}

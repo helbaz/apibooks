@@ -29,7 +29,7 @@ def view_registre(request):
             login(request, usuari)
             Usuarios.objects.create(usuario=request.user, nickname=nickname)
             return HttpResponseRedirect(reverse('index'))
-    return render(request, 'regitro.html', context)
+    return render(request, 'usuarios/regitro.html', context)
 
 @login_required()
 def view_perfil(request):
@@ -42,4 +42,4 @@ def view_perfil(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('index'))
-    return render(request, 'perfil.html', context)
+    return render(request, 'usuarios/perfil.html', context)

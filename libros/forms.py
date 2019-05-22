@@ -11,6 +11,28 @@ class formPublicar(forms.ModelForm):
     class Meta:
         model = Libros
         fields = ('titulo', 'descripcion', 'generos', 'imagen_perfil')
-        # widgets = {
-        #     'generos': forms.CheckboxSelectMultiple,
-        # }
+        widgets = {
+            'generos': forms.CheckboxSelectMultiple,
+        }
+
+
+class formCapitulo(forms.ModelForm):
+    class Meta:
+        model = Capitulos
+        fields = ('titulo', 'num_capitulo')
+
+
+class formEditarCapitulo(forms.ModelForm):
+    class Meta:
+        model = Capitulos
+        fields = ('titulo', 'num_capitulo')
+
+        def __init__(self, *args, **kwargs):
+            super(formEditarCapitulo, self).__init__(*args, **kwargs)
+            self.fields['contenido'].required = True
+
+
+class formListaCaps(forms.ModelForm):
+    class Meta:
+        model = Libros
+        fields = "__all__"

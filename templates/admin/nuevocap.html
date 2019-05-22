@@ -1,0 +1,36 @@
+{% extends 'base_home.html' %}
+{% block body %}
+    <div class="container mt-4">
+        <h4 class="form-center">Creant capítol de {{ libro.titulo }}</h4>
+        <form action="" method="post" class="mb-3" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="d-block form-group mt-2">
+                <label for="titulo" class="float-left mr-1">Titol</label>
+                {{ form.titulo }}
+            </div>
+            <div class="d-block form-group mt-2">
+                <label for="descripcion" class="float-left mr-1">Nº capítol</label>
+                {{ form.num_capitulo }}
+            </div>
+            <div class="d-block form-group mt-2">
+                <textarea name="contenido" id="id_contenido" rows="10" cols="40"></textarea>
+            </div>
+            <button type="submit" class="btn btn-default"><i class="fas fa-times mr-1"></i><a class="nounderline" href="{% url 'libros' %}">Cancelar</a></button>
+            <button type="submit" class="btn btn-primary"></i><i class="fas fa-check mr-1"></i>Crear</button>
+        </form>
+        {% if form.has_error %}
+            {{ form.errors }}
+        {% endif %}
+    </div>
+    <script>
+        tinymce.init({
+            selector: '#id_contenido',
+            themes: "modern",
+            plugins: 'print preview powerpaste searchreplace autolink directionality advcode visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount tinymcespellchecker a11ychecker imagetools mediaembed  linkchecker textpattern help',
+            toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+            height: 300
+        });
+        $("#id_titulo").add("form-control ml-1")
+        $("#id_num_capitulo").add("form-control ml-1").val({{ siguiente }})
+    </script>
+{% endblock %}

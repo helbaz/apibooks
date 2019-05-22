@@ -1,0 +1,30 @@
+{% extends 'base_home.html' %}
+{% block body %}
+    <div class="container mt-3 bg-light">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h4>{{ libro.titulo }}</h4>
+            </div>
+            <div class="col-md-4 llibre-img">
+                <img class="carousel-img" src="/media/{{ libro.imagen_perfil }}" alt="Portada de {{ libro.titulo }}">
+            </div>
+            <div class="col-md-8 descripcion">
+                <p>{{ libro.descripcion }}</p>
+            </div>
+            <div class="col-md-12 pl-5 mt-3">
+                <span>Ultim capitol: </span>
+                <a href="#">Capítol {{ ultimo_cap.num_capitulo }}: {{ ultimo_cap.titulo }}</a>
+            </div>
+            <div class="col-md-12 lista_caps mt-3">
+                <div class="row">
+                    {% if  caps %}
+                    {% for cap in caps %}
+                        <div class="col-md-6"><a href="{% url 'ver_cap' libro.id cap.num_capitulo %}">Capítol {{ cap.num_capitulo }}: {{ cap.titulo }}</a></div>
+                    {% endfor %}
+
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

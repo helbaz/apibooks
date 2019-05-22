@@ -1,0 +1,38 @@
+{% extends 'base_home.html' %}
+{% block body %}
+    <div class="container"><div class="row"></div>
+        <div class="row mt-5 mb-5">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h3>{{ cap }}</h3>
+                    </div>
+                    <div class="col-md-6 float-left">
+                        <span>Llista capítols</span>
+                        <select name="capitols" id="capitols" class="form-control w-50">
+                            {% for lista_cap in lista_caps %}
+                                {% if lista_cap == cap %}
+                                    <option value="{{ lista_cap.num_capitulo }}" selected>Capítol {{ lista_cap.num_capitulo }}: {{ lista_cap.titulo }}</option>
+                                {% else %}
+                                    <option value="{{ lista_cap.num_capitulo }}">Capítol {{ lista_cap.num_capitulo }}: {{ lista_cap.titulo }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 text-right">Autor: {{ libro.autor }}</div>
+                </div>
+
+                <hr>
+            </div>
+            <div class="col-md-12 contenido_capitulo">
+                {{ cap.contenido|safe }}
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#capitols").change(function () {
+            num = $("#capitols option:selected").val()
+            window.location.href = "/llibre/{{ libro.id }}/"+num;
+        })
+    </script>
+{% endblock %}

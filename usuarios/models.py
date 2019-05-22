@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import os
 from django.db import models
+from libros.models import *
 from django.contrib.auth.models import User
 
 
@@ -25,6 +26,7 @@ class Usuarios(models.Model):
 
 class Comentarios(models.Model):
     usuario = models.ForeignKey(Usuarios)
+    #capitulo = models.ForeignKey(Capitulos, on_delete=models.CASCADE)
     comentario = models.CharField(max_length=500)
     class Meta:
         verbose_name = 'Comentario'

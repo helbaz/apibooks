@@ -1,7 +1,7 @@
 {% extends 'base_home.html' %}
 {% block body %}
     <div class="container text-center">
-        <form action="{% url 'publicar' %}" method="post" class="mb-3">
+        <form action="{% url 'nuevo_libro' %}" method="post" class="mb-3" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="d-block form-group mt-2">
                 <label for="titulo" class="float-left">Titol</label>

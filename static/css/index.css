@@ -3,8 +3,9 @@
 }
 
 .carousel-img {
-    width: 250px;
-    height: 250px;
+    width: 100%;
+    height: auto;
+    max-height: 250px;
 }
 .nounderline a:hover{
     text-decoration: none;
@@ -86,9 +87,20 @@ footer a:hover{
     text-align: center;
 }
 
+.user-list{
+    margin-left: -10%;
+}
+.contenido_capitulo{
+    text-align: justify;
+    font-family: SansSerif;
+    font-size: 1.2em;
+}
 /* Small Devices, Tablets */
 @media only screen and (max-width: 768px) {
     .chapter-list > div.row > div:first-child {
         border-right: 0;
+    }
+    .user-list{
+        margin-left: 0;
     }
 }

@@ -1,0 +1,25 @@
+{% extends 'base_home.html' %}
+{% block body %}
+    <div class="container mt-5">
+        <div class="row">
+        {% if libros %}
+            <div class="llista-llibres col-md-12">
+            {% for libro in libros %}
+                        <div class="row mb-3">
+                            <div class="col-md-2"><img class="w-50" src="media/{{ libro.imagen_perfil }}" alt="{{ libro.titulo }}"></div>
+                            <div class="col-md-4">{{ libro.titulo }}</div>
+                            <div class="col-md-6">
+                                <a href="{% url 'lista_caps' libro.id %}" class="btn btn-primary"><i class="fas fa-list mr-1"></i>Lista capítols</a>
+                                <a href="{% url 'nuevo_cap' libro.id %}" class="btn btn-primary"><i class="fas fa-plus mr-1"></i>Afegir un capítol</a>
+                                <a href="{% url 'borrar_libro' libro.id %}" class="btn btn-danger"><i class="fas fa-trash mr-1"></i>Eliminar llibre</a>
+                            </div>
+                        </div>
+                <hr>
+            {% endfor %}
+            </div>
+            </table>
+        {% endif %}
+        <a href="{% url 'nuevo_libro' %}" class="btn btn-primary mt-5"><i class="fas fa-plus mr-1"></i>Afegir un llibre</a>
+        </div>
+    </div>
+{% endblock %}

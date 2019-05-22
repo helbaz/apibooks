@@ -13,6 +13,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=ptdqvfmwebo6r9wbbsi8mc2ozra4zy26029bghuzto3uisir"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     {% load static %}
     <script src="{% static 'lib/slick/slick.js' %}"></script>
@@ -42,18 +46,20 @@
             <ul class="navbar-nav mr-auto">
                 {% if request.user.is_authenticated %}
                     <li class="nav-item span nav-link text nounderline">
-                        <div class="btn btn-light"><a class="text-white" href="#" style="color: #6495ED !important;"><i class="fas fa-book-open mr-1"></i><a
-                                href="{% url 'publicar' %}">Publicar</a></a></div>
+                        <div class="btn btn-light"><a class="text-white" href="#" style="color: #6495ED !important;"><a
+                                href="{% url 'nuevo_libro' %}"><i class="fas fa-book-open mr-1"></i>Crear llibre</a></a></div>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="panel-usuario" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <img src="media/{{ user.imagen_perfil }}" class="img-navbar" alt="Imatge de perfil">{{ user.nickname }}
+                            <img src="/media/{{ user.imagen_perfil }}" class="img-navbar" alt="Imatge de perfil">{{ user.nickname }}
                         </a>
-                        <div class="dropdown-menu bg-primary bg-primary" aria-labelledby="panel-usuario">
-                          <a class="dropdown-item text-white bg-primary" href="{% url 'perfil' %}">Editar perfil</a>
-                          <a class="dropdown-item text-white bg-primary" href="{% url 'sortir' %}">Sortir<i class="fas fa-sign-out-alt ml-1"></i></a>
+                        <div class="dropdown-menu bg-primary bg-primary user-list" aria-labelledby="panel-usuario">
+                            <a class="dropdown-item text-white bg-primary" href="{% url 'libros' %}">Els meus llibres</a>
+                            <hr>
+                            <a class="dropdown-item text-white bg-primary" href="{% url 'perfil' %}">Editar perfil</a>
+                            <a class="dropdown-item text-white bg-primary" href="{% url 'sortir' %}">Sortir<i class="fas fa-sign-out-alt ml-1"></i></a>
                         </div>
-                      </li>
+                    </li>
                 {% else %}
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{% url 'login' %}">Inicia sessió</a>
@@ -75,7 +81,7 @@
             <div class="col-md-4">
                 <h5>Pàgines d'interes</h5>
                 <ul>
-                    <li><a href="#">Inici</a></li>
+                    <li><a href="{% url 'index' %}">Inici</a></li>
                     <li><a href="#">Explorar</a></li>
                     <li><a href="#">Qui som</a></li>
                 </ul>
