@@ -1,6 +1,6 @@
 # apibooks
 
-2DAW - Sintesis 2019 - Hanza El Baz
+Autor: Hamza El Baz -
 Pàgina web dedicada a la publicació de llibres
 # Requeriments:
 
