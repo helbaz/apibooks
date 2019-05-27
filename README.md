@@ -1,6 +1,6 @@
 # apibooks
 
-Autor: Hamza El Baz -
+Autor: Hamza El Baz  
 Pàgina web dedicada a la publicació de llibres
 # Requeriments:
 
