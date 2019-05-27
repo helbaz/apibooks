@@ -1,29 +1,88 @@
 {% extends 'base_home.html' %}
+{% block scripts %}
+<script>
+        $(document).ready(function () {
+            $.get( "/llibre/seguir/status?libro={{ libro.id }}", function( data ) {
+                var seguir = document.getElementById( "follow");
+                if (data.type=="1"){
+                    seguir.className = "btn btn-success ml-4"
+                    seguir.innerText = "Deixar de seguir"
+                } else {
+                    seguir.className = "btn btn-warning ml-4"
+                    seguir.innerText = "Seguir"
+                }
+            })
+        })
+        $("#follow").click(function () {
+            $.get( "/llibre/seguir?libro={{ libro.id }}", function( data ) {
+                //1= ya no sigo, 2= sigo
+                console.log(data)
+                var seguir = document.getElementById( "follow");
+                console.log(seguir.className)
+                seguir.className = (seguir.className=="btn btn-success ml-4")?"btn btn-warning ml-4":"btn btn-success ml-4"
+                seguir.innerText = (seguir.innerText=="Seguir")?"Deixar de seguir":"Seguir"
+                if (data.type === "1"){
+                    $(this).class = "btn btn-warning"
+                    $(this).html("Seguir")
+                } else if (data.type === "2"){
+                    $(this).class = "btn btn-success"
+                    $(this).html("Deixar de seguir")
+                }
+            });
+        })
+    </script>
+{% endblock %}
 {% block body %}
-    <div class="container mt-3 bg-light">
+    <div class="container mt-3">
         <div class="row">
             <div class="col-md-12 text-center">
                 <h4>{{ libro.titulo }}</h4>
             </div>
-            <div class="col-md-4 llibre-img">
-                <img class="carousel-img" src="/media/{{ libro.imagen_perfil }}" alt="Portada de {{ libro.titulo }}">
+        {% if request.user.is_authenticated %}
+            <div class="col-md-12">
+                <button id="follow" class="btn btn-default ml-4"><i class="fas fa-circle-notch fa-spin"></i>Carregant...</button>
+            </div>
+        {% endif %}
+            <div class="col-md-4" align="center">
+                <div class="responsive-img-container">
+                    <img class="responsive-img" src="/media/{{ libro.imagen_perfil }}" alt="Portada de {{ libro.titulo }}">
+                </div>
             </div>
             <div class="col-md-8 descripcion">
                 <p>{{ libro.descripcion }}</p>
             </div>
-            <div class="col-md-12 pl-5 mt-3">
-                <span>Ultim capitol: </span>
-                <a href="#">Capítol {{ ultimo_cap.num_capitulo }}: {{ ultimo_cap.titulo }}</a>
-            </div>
+            {% if libro.generos %}
+                <div class="col-md-12 pl-5 pr-5 mt-2">
+                    <h5>Gèneres</h5>
+                    {% for genero in libro.generos.all %}
+                        <a href="{% url 'buscador' %}?genere={{ genero.nombre }}" class="btn-success btn text-center float-left mr-1">{{ genero.nombre }}</a>
+                    {% endfor %}
+
+                </div>
+            {% endif %}
+            {% if ultimo_cap %}
+                <div class="col-md-12 pl-5 mt-3">
+                    <span>Ultim capitol: </span>
+                    <a href="{% url 'ver_cap' libro.id ultimo_cap.num_capitulo %}">Capítol {{ ultimo_cap.num_capitulo }}: {{ ultimo_cap.titulo }}</a>
+                </div>
+            {% endif %}
             <div class="col-md-12 lista_caps mt-3">
                 <div class="row">
                     {% if  caps %}
-                    {% for cap in caps %}
-                        <div class="col-md-6"><a href="{% url 'ver_cap' libro.id cap.num_capitulo %}">Capítol {{ cap.num_capitulo }}: {{ cap.titulo }}</a></div>
-                    {% endfor %}
+                        {% for cap in caps %}
+                            <div class="col-md-6"><a href="{% url 'ver_cap' libro.id cap.num_capitulo %}">Capítol {{ cap.num_capitulo }}: {{ cap.titulo }}</a></div>
+                        {% endfor %}
 
-                {% endif %}
+                    {% else %}
+                        <div class="col-md text-center">Aquest llibre encara no te capítols</div>
+                    {% endif %}
                 </div>
+            </div>
+            <div class="col-md-12 comentaris mt-5">
+                <hr>
+                {% load disqus_tags %}
+                {% disqus_show_comments %}
+                <div id="disqus_thread"></div>
             </div>
         </div>
     </div>

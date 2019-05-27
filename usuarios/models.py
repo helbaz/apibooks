@@ -2,12 +2,13 @@
 from __future__ import unicode_literals
 import os
 from django.db import models
-from libros.models import *
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 def get_image_path(instance, filename):
     return os.path.join('static/users/', str(instance.id), filename)
+
 
 # Create your models here.
 class Usuarios(models.Model):
@@ -24,10 +25,17 @@ class Usuarios(models.Model):
         verbose_name_plural = 'Usuarios'
 
 
-class Comentarios(models.Model):
-    usuario = models.ForeignKey(Usuarios)
-    #capitulo = models.ForeignKey(Capitulos, on_delete=models.CASCADE)
-    comentario = models.CharField(max_length=500)
+class LibrosSeguidos(models.Model):
+    usuario = models.ForeignKey('Usuarios', on_delete=models.CASCADE)
+    libro = models.ForeignKey('libros.Libros', on_delete=models.CASCADE)
+    ultimo_capitulo = models.IntegerField(blank=False, null=False)
+    ultima_visita = models.DateTimeField(default=timezone.now)
+
+
+    def __unicode__(self):
+        return "Usuario {0} sigue {1}".format(self.usuario.usuario.username, self.libro.titulo)
+
     class Meta:
-        verbose_name = 'Comentario'
-        verbose_name_plural = 'Comentarios'
+        unique_together = ('usuario', 'libro',)
+        verbose_name = 'Libros seguidos'
+        verbose_name_plural = 'Libros seguidos'

@@ -1,4 +1,9 @@
 {% extends 'base_home.html' %}
+{% block scripts %}
+    <script>
+        $("#id_username, #id_password").addClass("form-control")
+    </script>
+{% endblock %}
 {% block body %}
     <div class="container mt-5 mb-5">
         <div class="p-5 w-50 m-auto user-form" align="center">
@@ -21,7 +26,4 @@
             <span>No tens compte? <a href="{% url 'registre' %}">Registrat</a></span>
         </div>
     </div>
-    <script>
-    $("#id_username, #id_password").addClass("form-control")
-    </script>
 {% endblock %}

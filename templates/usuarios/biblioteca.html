@@ -1,0 +1,37 @@
+{% extends 'base_home.html' %}
+{% block body %}
+    <div class="container mt-4" id="libreria">
+        {% if libros %}
+            <div class="row">
+                {% for key, libro_seguido in libros.items %}
+                    <div class="col-md-3 text-center">
+                        <div class="responsive-img-container" align="center">
+                            <img src="/media/{{ libro_seguido.url_imagen}}" class="responsive-img">
+                        </div>
+                        <div class="pl-2 pr-2 pt-1">
+                        {% if libro_seguido.num_cap == 0 %}
+                            <h3 class=""><a class="text-dark" href="{% url 'ver_libro' libro_seguido.libro_id %}">{{ libro_seguido.titulo }}</a></h3>
+                        {% else %}
+                            <h3 class=""><a class="text-dark" href="{% url 'ver_cap' libro_seguido.libro_id libro_seguido.libro.ultimo_capitulo %}">{{ libro_seguido.titulo }}</a></h3>
+                        {% endif %}
+                        {% if libro_seguido.nuevo_cap %}
+                            <div class="nuevo_cap">Última lectura: Capítol {{ libro_seguido.libro.ultimo_capitulo }} de {{ libro_seguido.num_cap }}</div>
+                        {% else %}
+                            {% if libro_seguido.num_cap == 0 %}
+                                <div>Aquest llibre encara no té capítols</div>
+                            {% else %}
+                                <div>Última lectura: Capítol {{ libro_seguido.libro.ultimo_capitulo }} de {{ libro_seguido.num_cap }}</div>
+                            {% endif %}
+                        {% endif %}
+                        </div>
+
+
+
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <span>No hay libros</span>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -37,9 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'libros',
-    'usuarios'
+    'usuarios',
+    'disqus',
+    'django.contrib.sites'
 ]
-
+SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -107,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ca'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
@@ -128,3 +130,5 @@ STATICFILES_DIRS = (
 )
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
+DISQUS_API_KEY = '9kP2r6vPxZH0EtHXkNsZv1377bzhJi9lzziXveHqAWVYEcZh03uXpjPYGo1H63UB'
+DISQUS_WEBSITE_SHORTNAME = 'apibooks'

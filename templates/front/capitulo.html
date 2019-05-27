@@ -1,6 +1,44 @@
 {% extends 'base_home.html' %}
+{% block scripts %}
+<script>
+        $("#capitols").change(function () {
+            num = $("#capitols option:selected").val()
+            window.location.href = "/llibre/{{ libro.id }}/"+num;
+        })
+        $(document).ready(function () {
+            $.get( "/llibre/seguir/status?libro={{ libro.id }}", function( data ) {
+                console.log(data)
+                var seguir = document.getElementById( "follow");
+                if (data.type=="1"){
+                    seguir.className = "btn btn-success ml-4"
+                    seguir.innerText = "Deixar de seguir"
+                } else {
+                    seguir.className = "btn btn-warning ml-4"
+                    seguir.innerText = "Seguir"
+                }
+            })
+        })
+        $("#follow").click(function () {
+            $.get( "/llibre/seguir?libro={{ libro.id }}&cap={{ cap.num_capitulo }}", function( data ) {
+                //1= ya no sigo, 2= sigo
+                console.log(data)
+                var seguir = document.getElementById( "follow");
+                console.log(seguir.className)
+                seguir.className = (seguir.className=="btn btn-success ml-4")?"btn btn-warning ml-4":"btn btn-success ml-4"
+                seguir.innerText = (seguir.innerText=="Seguir")?"Deixar de seguir":"Seguir"
+                if (data.type === "1"){
+                    $(this).class = "btn btn-warning"
+                    $(this).html("Seguir")
+                } else if (data.type === "2"){
+                    $(this).class = "btn btn-success"
+                    $(this).html("Deixar de seguir")
+                }
+            });
+        })
+    </script>
+{% endblock %}
 {% block body %}
-    <div class="container"><div class="row"></div>
+    <div class="container bg-white">
         <div class="row mt-5 mb-5">
             <div class="col-md-12">
                 <div class="row">
@@ -19,20 +57,38 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="col-md-6 text-right">Autor: {{ libro.autor }}</div>
+                    <div class="col-md-6 text-right">Autor: {{ libro.autor }}<br><button id="follow" class="btn btn-default ml-4"><i class="fas fa-circle-notch fa-spin"></i>Carregant...</button></div>
                 </div>
 
                 <hr>
             </div>
             <div class="col-md-12 contenido_capitulo">
                 {{ cap.contenido|safe }}
+                <hr>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-5 text-left">
+                        {% if anterior %}
+                            <a href="{% url 'ver_cap' libro.pk anterior.num_capitulo %}">Capítol {{ anterior.num_capitulo }}: {{ anterior.titulo }}</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <a href="{% url 'ver_libro' libro.pk %}">Índex</a>
+                    </div>
+                    <div class="col-md-5 text-right">
+                        {% if siguiente %}
+                            <a href="{% url 'ver_cap' libro.pk siguiente.num_capitulo %}">Capítol {{ siguiente.num_capitulo }}: {{ siguiente.titulo }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 comentaris mt-5">
+                <hr>
+                {% load disqus_tags %}
+                {% disqus_show_comments %}
+                <div id="disqus_thread"></div>
             </div>
         </div>
     </div>
-    <script>
-        $("#capitols").change(function () {
-            num = $("#capitols option:selected").val()
-            window.location.href = "/llibre/{{ libro.id }}/"+num;
-        })
-    </script>
 {% endblock %}

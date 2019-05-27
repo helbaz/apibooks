@@ -1,4 +1,21 @@
 {% extends 'base_home.html' %}
+{% block scripts %}
+<script>
+    $('.slick').slick({
+        arrows: true,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        dots: true,
+        speed: 1100,
+        prevArrow: false,
+        nextArrow: false,
+        adaptiveHeight: true
+    });
+</script>
+{% endblock %}
 {% block body %}
 <div class="container bg-light pt-1 pb-3 mt-3">
     <div class="col-md-12 bg-white-50" align="center">
@@ -7,7 +24,7 @@
         <div class="slick border">
             {% for libro in libros %}
                 <div class="row">
-                    <div class="col-md-12"><img class="carousel-img" src="media/{{ libro.imagen_perfil }}" alt="{{ libro.titulo }}"></div>
+                    <div class="col-md-12 responsive-img-container"><img class="responsive-img" src="media/{{ libro.imagen_perfil }}" alt="{{ libro.titulo }}"></div>
                     <div class="col-md-12"><a href="{% url 'ver_libro' libro.pk %}">{{ libro.titulo }}</a></div>
                 </div>
             {% endfor %}
@@ -23,10 +40,11 @@
                     <h3>Últims capítols</h3>
                 </li>
                 {% for capitulo in capitulos %}
+
                     <li class="list-group-item chapter-list">
                         <div class="row">
-                            <div class="col-md-3"><img src="media/{{ capitulo.libro.imagen_perfil }}" alt="{{ capitulo.titulo }}" class="latest_chap_img"></div>
-                            <div class="col-md-9 align-middle">[{{ capitulo.libro.titulo }}] Capítol {{ capitulo.num_capitulo }}: {{ capitulo.titulo }}</div>
+                            <div class="col-md-3"><a href="{% url 'ver_libro' capitulo.libro.id %}"><img src="media/{{ capitulo.libro.imagen_perfil }}" alt="{{ capitulo.titulo }}" class="latest_chap_img"></a></div>
+                            <div class="col-md-9 align-middle nounderline"><a href="{% url 'ver_cap' capitulo.libro.id capitulo.num_capitulo %}">[{{ capitulo.libro.titulo }}] Capítol {{ capitulo.num_capitulo }}: {{ capitulo.titulo }}</a></div>
                         </div>
                     </li>
                 {% endfor %}
@@ -35,20 +53,39 @@
             {% endif %}
         </ul>
     </div>
+    <div class="col-md-12 mt-5">
+        <div class="pagination d-flex justify-content-center" align="center">
+
+        {% if capitulos.has_previous %}
+            <a class="pagination-action" href="?page=1">
+                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+            </a>
+            <a class="pagination-action" href="?page={{ capitulos.previous_page_number }}">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </a>
+        {% endif %}
+
+        {% for num in capitulos.paginator.page_range %}
+
+            {% if capitulos.number == num %}
+                <span class="pagination-number pagination-current ml-1 mr-1">{{ num }}</span>
+            {% elif num > capitulos.number|add:'-3' and num < capitulos.number|add:'3' %}
+                <a class="pagination-number  ml-1 mr-1" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+
+        {% endfor %}
+
+        {% if capitulos.has_next %}
+            <a class="pagination-action" href="?page={{ capitulos.next_page_number }}">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+            <a class="pagination-action" href="?page={{ capitulos.paginator.num_pages }}">
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            </a>
+        {% endif %}
+
+    </div>
+    </div>
 </div>
-    <script>
-    $('.slick').slick({
-        arrows: true,
-        infinite: true,
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        autoplay: true,
-        autoplaySpeed: 2000,
-        dots: true,
-        speed: 1100,
-        prevArrow: false,
-        nextArrow: false,
-        adaptiveHeight: true
-    });
-</script>
+
 {% endblock %}

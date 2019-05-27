@@ -1,4 +1,17 @@
 {% extends 'base_home.html' %}
+{% block scripts %}
+<script>
+        tinymce.init({
+            selector: '#id_contenido',
+            themes: "modern",
+            plugins: 'print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help',
+            toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+            height: 300
+        });
+        $("#id_titulo").add("form-control ml-1")
+        $("#id_num_capitulo").add("form-control ml-1").val({{ siguiente }})
+    </script>
+{% endblock %}
 {% block body %}
     <div class="container mt-4">
         <h4 class="form-center">Creant capítol de {{ libro.titulo }}</h4>
@@ -22,15 +35,4 @@
             {{ form.errors }}
         {% endif %}
     </div>
-    <script>
-        tinymce.init({
-            selector: '#id_contenido',
-            themes: "modern",
-            plugins: 'print preview powerpaste searchreplace autolink directionality advcode visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount tinymcespellchecker a11ychecker imagetools mediaembed  linkchecker textpattern help',
-            toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
-            height: 300
-        });
-        $("#id_titulo").add("form-control ml-1")
-        $("#id_num_capitulo").add("form-control ml-1").val({{ siguiente }})
-    </script>
 {% endblock %}

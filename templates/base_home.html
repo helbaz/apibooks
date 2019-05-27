@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="{% static 'lib/slick/slick.css' %}">
     <link rel="stylesheet" href="{% static 'lib/slick/slick-theme.css' %}">
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -36,19 +37,23 @@
                 <a class="nav-link text-white" href="{% url 'index' %}">Inici</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">Explorar</a>
+                <a class="nav-link text-white" href="{% url 'buscador' %}#">Explorar</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#">Qui som</a>
-            </li>
+            {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'biblioteca' %}">Biblioteca</a>
+                </li>
+            {% endif %}
         </ul>
         <div class="form-inline my-2 my-lg-0 registre navbar-item">
             <ul class="navbar-nav mr-auto">
                 {% if request.user.is_authenticated %}
-                    <li class="nav-item span nav-link text nounderline">
-                        <div class="btn btn-light"><a class="text-white" href="#" style="color: #6495ED !important;"><a
-                                href="{% url 'nuevo_libro' %}"><i class="fas fa-book-open mr-1"></i>Crear llibre</a></a></div>
-                    </li>
+                    {% if request.user.username == 'admin' %}
+                        <li class="nav-item span nav-link text nounderline">
+                            <div class="btn btn-light"><a class="text-white" href="#" style="color: #6495ED !important;"><a
+                                    href="/admin"><i class="fas fa-book-open mr-1"></i>Panel de admin</a></a></div>
+                        </li>
+                    {% endif %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="panel-usuario" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="/media/{{ user.imagen_perfil }}" class="img-navbar" alt="Imatge de perfil">{{ user.nickname }}
@@ -82,15 +87,15 @@
                 <h5>Pàgines d'interes</h5>
                 <ul>
                     <li><a href="{% url 'index' %}">Inici</a></li>
-                    <li><a href="#">Explorar</a></li>
-                    <li><a href="#">Qui som</a></li>
+                    <li><a href="{% url 'buscador' %}">Explorar</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'biblioteca' %}">Biblioteca</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="col-md-4">
-                <h5>Contacta'ns</h5>
-                <ul>
-                    <li><a href="#">Formulari de contacte</a></li>
-                </ul>
             </div>
             <div class="col-md-4">
                 <h5>Xarxes socials</h5>
@@ -103,5 +108,7 @@
         </div>
     </div>
 </footer>
+{% block scripts %}
+{% endblock %}
 </body>
 </html>

@@ -35,7 +35,7 @@ def view_registre(request):
 def view_perfil(request):
     user = Usuarios.objects.get(usuario=request.user)
     form = formPerfil(request.POST, request.FILES, instance=user)
-    context = {'form': form, 'title': 'Editar perfil | Apibooks, la teva pàgina de llibres', 'user': user}
+    context = {'form': form, 'titulo': 'Editar perfil | Apibooks, la teva pàgina de llibres', 'user': user}
     if request.method == 'POST':
         print 'es post'
         print form.errors
@@ -43,3 +43,27 @@ def view_perfil(request):
             form.save()
             return HttpResponseRedirect(reverse('index'))
     return render(request, 'usuarios/perfil.html', context)
+
+@login_required()
+def view_mis_libros(request):
+    print 'mis libros'
+    user = Usuarios.objects.get(usuario=request.user)
+    libros_seguidos = LibrosSeguidos.objects.filter(usuario=user)
+    dict = {}
+    if libros_seguidos.count() > 0:
+        i = 0
+        for libro_seguido in libros_seguidos:
+            num = Capitulos.objects.filter(libro=libro_seguido.libro).order_by("-num_capitulo")
+            nuevo_cap = False
+            if num.count() > 0:
+                if num[0].fecha_creacion > libro_seguido.ultima_visita:
+                    nuevo_cap = True
+                num = num[0].num_capitulo
+            else:
+                num = 0
+            dict[str(i)] = {"libro": libro_seguido, "num_cap": num, "titulo": libro_seguido.libro.titulo, "url_imagen": libro_seguido.libro.imagen_perfil, "nuevo_cap": nuevo_cap, "libro_id": libro_seguido.libro.id}
+            i += 1
+    else:
+        dict = None
+    context = {'titulo': 'Els meus llibres | Apibooks, la teva pàgina de llibres', 'user': user, 'libros': dict}
+    return render(request, 'usuarios/biblioteca.html', context)

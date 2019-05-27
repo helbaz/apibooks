@@ -47,7 +47,7 @@ class Capitulos(models.Model):
     titulo = models.CharField(max_length=100, blank=False, null=False)
     num_capitulo = models.IntegerField(blank=False, null=False)
     contenido = models.TextField(blank=False, null=False)
-    libro = models.ForeignKey(Libros)
+    libro = models.ForeignKey(Libros, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(default=timezone.now)
 
     class Meta:

@@ -6,7 +6,11 @@
             <div class="llista-llibres col-md-12">
             {% for libro in libros %}
                         <div class="row mb-3">
-                            <div class="col-md-2"><img class="w-50" src="media/{{ libro.imagen_perfil }}" alt="{{ libro.titulo }}"></div>
+                            <div class="col-md-2" align="center">
+                                <div class="responsive-img-container">
+                                    <img class="responsive-img" src="media/{{ libro.imagen_perfil }}" alt="{{ libro.titulo }}">
+                                </div>
+                            </div>
                             <div class="col-md-4">{{ libro.titulo }}</div>
                             <div class="col-md-6">
                                 <a href="{% url 'lista_caps' libro.id %}" class="btn btn-primary"><i class="fas fa-list mr-1"></i>Lista capítols</a>

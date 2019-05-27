@@ -1,4 +1,9 @@
 {% extends 'base_home.html' %}
+{% block scripts %}
+    <script>
+        $("#id_titulo, #id_descripcion").addClass("form-control")
+    </script>
+{% endblock %}
 {% block body %}
     <div class="container text-center">
         <form action="{% url 'nuevo_libro' %}" method="post" class="mb-3" enctype="multipart/form-data">
@@ -23,8 +28,8 @@
             <button type="submit" class="btn btn-default"><i class="fas fa-times mr-1"></i><a class="nounderline" href="{% url 'index' %}">Cancelar</a></button>
             <button type="submit" class="btn btn-primary"></i><i class="fas fa-check mr-1"></i>Crear</button>
         </form>
+        {% if form.has_error %}
+            {{ form.errors }}
+        {% endif %}
     </div>
-    <script>
-        $("#id_titulo, #id_descripcion").addClass("form-control")
-    </script>
 {% endblock %}
