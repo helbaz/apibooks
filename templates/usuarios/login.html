@@ -5,7 +5,7 @@
     </script>
 {% endblock %}
 {% block body %}
-    <div class="container mt-5 mb-5">
+    <div class="container mt-5 mb-5 row">
         <div class="p-5 w-50 m-auto user-form" align="center">
             <form action="{% url 'login' %}" method="post" class="mb-3">
                 {% csrf_token %}

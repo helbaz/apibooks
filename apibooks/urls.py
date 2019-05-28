@@ -30,11 +30,13 @@ urlpatterns = [
     url(r'^home$', view_index, name='index'),
     url(r'^registre$', view_registre, name='registre'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'index'}, name='sortir'),
-    url(r'^login/$', auth_views.login, {'template_name': 'usuarios/login.html', 'redirect_authenticated_user': True, 'extra_context':{'titulo': 'Inicia sessio'}}, name='login'),
+    url(r'^login/$', auth_views.login,
+    {'template_name': 'usuarios/login.html', 'redirect_authenticated_user': True, 'extra_context': {'titulo': 'Inicia '
+                                                                                                              'sessio'}}, name='login'),
     url(r'^perfil$', view_perfil, name='perfil'),
-    #url(r'^publicar$', view_publicar, name='publicar'),
+    # url(r'^publicar$', view_publicar, name='publicar'),
     url(r'^publicar$', view_publicar, name='nuevo_libro'),
-    url(r'^llibres$', view_libros, name='libros'),
+    url(r'^llibres/$', view_libros, name='libros'),
     url(r'^nou-capitol/(?P<libro_id>[0-9]+)$', view_nuevo_cap, name='nuevo_cap'),
     url(r'^borrar-llibre/(?P<libro_id>[0-9]+)$', view_borrar_libro, name='borrar_libro'),
     url(r'^llibre/(?P<libro_id>[0-9]+)/capitols$', view_capitulos, name="lista_caps"),
@@ -46,7 +48,6 @@ urlpatterns = [
     url(r'^llibre/seguir/status$', view_seguir_status, name='seguir_libro_status'),
     url(r'^biblioteca$', view_mis_libros, name='biblioteca'),
     url(r'^cercador$', view_buscador, name='buscador'),
-    url(r'^cercador/cerca$', view_api_buscador, name='api_buscador')
-
-
+    url(r'^cercador/cerca$', view_api_buscador, name='api_buscador'),
+    url(r'^llibres/(?P<libro_id>[0-9]+)/editar$', view_editar_libro, name='editar_libro'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -15,6 +15,7 @@
             var type = $("#type option:selected").val();
             var q = $("#searchbar").val();
             if (q == "" || type == ""){
+                $("#resultados").children().remove()
                 return false
             }
             $.get( "/cercador/cerca?type="+type+"&q="+q, function( data ) {
@@ -22,11 +23,14 @@
                 $("#resultados").children().remove()
                 $.each(data, function(index,element){console.log("entra")
                     var div = $("<div class=\"col-md-4 text-center\">")
+                    var link = $("<a class=\"text-dark\" href=\"/llibre/"+element.libro_id+"\">")
                     var img = $("<div class=\"responsive-img-container\">")
-                    img.append("<img src=\""+element.portada+"\" class=\"responsive-img\">")
-                    div.append(img)
-                    div.append("<h3><a class=\"text-dark\" href=\"/llibre/"+element.libro_id+"\">"+element.titulo+"</a></h3>")
+                    img.append("<img src=\""+element.portada+"\" class=\"responsive-img cancel-animation\">")
+                    link.append(img)
+                    link.append("<h3>"+element.titulo+"</h3>")
+                    div.append(link)
                     $("#resultados").append(div)
+
                 })
             });
         }

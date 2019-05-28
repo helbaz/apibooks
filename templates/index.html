@@ -24,7 +24,7 @@
         <div class="slick border">
             {% for libro in libros %}
                 <div class="row">
-                    <div class="col-md-12 responsive-img-container"><img class="responsive-img" src="media/{{ libro.imagen_perfil }}" alt="{{ libro.titulo }}"></div>
+                    <div class="col-md-12 responsive-img-container"><a href="{% url 'ver_libro' libro.pk %}"><img class="responsive-img" src="media/{{ libro.imagen_perfil }}" alt="{{ libro.titulo }}"></a></div>
                     <div class="col-md-12"><a href="{% url 'ver_libro' libro.pk %}">{{ libro.titulo }}</a></div>
                 </div>
             {% endfor %}

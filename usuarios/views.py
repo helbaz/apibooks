@@ -37,7 +37,6 @@ def view_perfil(request):
     form = formPerfil(request.POST, request.FILES, instance=user)
     context = {'form': form, 'titulo': 'Editar perfil | Apibooks, la teva pàgina de llibres', 'user': user}
     if request.method == 'POST':
-        print 'es post'
         print form.errors
         if form.is_valid():
             form.save()
@@ -46,7 +45,6 @@ def view_perfil(request):
 
 @login_required()
 def view_mis_libros(request):
-    print 'mis libros'
     user = Usuarios.objects.get(usuario=request.user)
     libros_seguidos = LibrosSeguidos.objects.filter(usuario=user)
     dict = {}

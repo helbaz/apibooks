@@ -1,5 +1,4 @@
-{% extends 'base_home.html' %}a
-
+{% extends 'base_home.html' %}className
 {% block scripts %}
 <script>
         tinymce.init({
@@ -9,13 +8,13 @@
             toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
             height: 300
         });
-        $("#id_titulo").val("{{ cap.titulo }}").add("form-control ml-1")
-        $("#id_num_capitulo").val("{{ cap.num_capitulo }}").add("form-control ml-1")
+        $("#id_titulo").add("form-control ml-1")
+        $("#id_num_capitulo").add("form-control ml-1").val({{ siguiente }})
     </script>
 {% endblock %}
 {% block body %}
     <div class="container mt-4">
-        <h3 class="text-center">Editant el capítol {{ cap.num_capitulo }} de {{ cap.libro.titulo }}</h3>
+        <h4 class="form-center">Creant capítol de {{ libro.titulo }}</h4>
         <form action="" method="post" class="mb-3" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="d-block form-group mt-2">
@@ -27,13 +26,13 @@
                 {{ form.num_capitulo }}
             </div>
             <div class="d-block form-group mt-2">
-                <textarea name="contenido" id="id_contenido" rows="10" cols="40">{{ cap.contenido|safe }}</textarea>
+                <textarea name="contenido" id="id_contenido" rows="10" cols="40"></textarea>
             </div>
             <button type="submit" class="btn btn-default"><i class="fas fa-times mr-1"></i><a class="nounderline" href="{% url 'libros' %}">Cancelar</a></button>
-            <button type="submit" class="btn btn-primary"></i><i class="fas fa-check mr-1"></i>Actualitzar</button>
+            <button type="submit" class="btn btn-primary"></i><i class="fas fa-check mr-1"></i>Crear</button>
         </form>
-    {% if form.has_error %}
-        {{ form.errors }}
-    {% endif %}
+        {% if form.has_error %}
+            {{ form.errors }}
+        {% endif %}
     </div>
 {% endblock %}

@@ -1,7 +1,8 @@
 {% extends 'base_home.html' %}
 {% block scripts %}
-<script>
+    <script>
         $(document).ready(function () {
+            $(".lista-caps-inner").hide()
             $.get( "/llibre/seguir/status?libro={{ libro.id }}", function( data ) {
                 var seguir = document.getElementById( "follow");
                 if (data.type=="1"){
@@ -11,6 +12,13 @@
                     seguir.className = "btn btn-warning ml-4"
                     seguir.innerText = "Seguir"
                 }
+            })
+            $(".lista-caps").click(function () {
+                $(".lista-caps-inner").slideToggle()
+                var arrow = document.getElementById( "arrow");
+                console.log(arrow.className)
+                arrow.className = (arrow.className=="fas fa-chevron-right ml-1 arrow-list arrow-list-changed")?"fas fa-chevron-right ml-1 arrow-list":"fas fa-chevron-right ml-1 arrow-list arrow-list-changed"
+                return false;
             })
         })
         $("#follow").click(function () {
@@ -35,14 +43,15 @@
 {% block body %}
     <div class="container mt-3">
         <div class="row">
-            <div class="col-md-12 text-center">
-                <h4>{{ libro.titulo }}</h4>
+            <div class="col-md-9 text-center mb-3">
+                <h2 class="bookheader">{{ libro.titulo }}</h2>
+
             </div>
-        {% if request.user.is_authenticated %}
-            <div class="col-md-12">
-                <button id="follow" class="btn btn-default ml-4"><i class="fas fa-circle-notch fa-spin"></i>Carregant...</button>
+            <div class="col-md-3" align="center">
+                {% if request.user.is_authenticated %}
+                    <button id="follow" class="btn btn-default ml-4"><i class="fas fa-circle-notch fa-spin mr-1"></i>Carregant...</button>
+                {% endif %}
             </div>
-        {% endif %}
             <div class="col-md-4" align="center">
                 <div class="responsive-img-container">
                     <img class="responsive-img" src="/media/{{ libro.imagen_perfil }}" alt="Portada de {{ libro.titulo }}">
@@ -66,8 +75,9 @@
                     <a href="{% url 'ver_cap' libro.id ultimo_cap.num_capitulo %}">Capítol {{ ultimo_cap.num_capitulo }}: {{ ultimo_cap.titulo }}</a>
                 </div>
             {% endif %}
-            <div class="col-md-12 lista_caps mt-3">
-                <div class="row">
+            <div class="col-md-12 mt-3 nounderline pl-5">
+                <a href="#" class="lista-caps text-dark mb-2">Llistat de capítols <i class="fas fa-chevron-right ml-1 arrow-list" id="arrow"></i></a>
+                <div class="row lista-caps-inner">
                     {% if  caps %}
                         {% for cap in caps %}
                             <div class="col-md-6"><a href="{% url 'ver_cap' libro.id cap.num_capitulo %}">Capítol {{ cap.num_capitulo }}: {{ cap.titulo }}</a></div>

@@ -60,7 +60,7 @@ def view_publicar(request):
             for genero in generos:
                 print genero
                 libro.generos.add(genero)
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('libros'))
     return render(request, 'admin/nuevolibro.html', context)
 
 
@@ -100,6 +100,32 @@ def view_nuevo_cap(request, libro_id):
         else:
             return HttpResponseRedirect(reverse('index'))
     return render(request, 'admin/nuevocap.html', context)
+
+@login_required()
+def view_editar_cap(request, capitulo_id):
+    usuario = Usuarios.objects.get(usuario=request.user)
+    cap = Capitulos.objects.get(pk=capitulo_id)
+    form = formEditarCapitulo(request.POST, instance=cap)
+    if request.method == 'POST':
+        if cap.libro.autor == usuario:
+            print 'es mi libro'
+            if form.is_valid():
+                print form.cleaned_data.get('titulo')
+                print 'form ok'
+                titulo = form.cleaned_data.get('titulo').encode('utf-8')
+                num_capitulo = form.cleaned_data.get('num_capitulo')
+                contenido = request.POST.get('contenido')
+                cap.titulo = titulo
+                cap.num_capitulo = num_capitulo
+                cap.contenido = contenido
+                cap.save()
+                return HttpResponseRedirect(reverse('index'))
+            else:
+                print form.errors
+        else:
+            return HttpResponseRedirect(reverse('index'))
+    context = {'titulo': 'Publicar', 'user': usuario, 'cap': cap, 'form': form}
+    return render(request, 'admin/editarcap.html', context)
 
 
 @login_required()
@@ -141,7 +167,6 @@ def view_editar_cap(request, capitulo_id):
         if cap.libro.autor == usuario:
             print 'es mi libro'
             if form.is_valid():
-                print form.cleaned_data.get('titulo')
                 print 'form ok'
                 titulo = form.cleaned_data.get('titulo').encode('utf-8')
                 num_capitulo = form.cleaned_data.get('num_capitulo')
@@ -206,14 +231,6 @@ def view_fron_cap(request, libro_id, num_cap):
             '-num_capitulo')[0]
     except:
         cap_anterior = None
-    if cap_siguiente:
-        print cap_siguiente
-    else:
-        print 'no tiene siguiente cap'
-    if cap_anterior:
-        print cap_anterior
-    else:
-        print 'no tiene cap anterior'
     titulo = 'Capitulo {0}: {1} | Apibooks, la teva pàgina de llibres'.format(cap.num_capitulo, cap.titulo)
     context = {'titulo': titulo, 'libro': libro, 'user': usuario, 'cap': cap, 'siguiente': cap_siguiente,
                'anterior': cap_anterior, 'lista_caps': caps}
@@ -248,7 +265,6 @@ def view_seguir(request):
 
 @login_required()
 def view_seguir_status(request):
-    print request.method
     usuario = Usuarios.objects.get(usuario=request.user)
     if request.method != 'GET':
         return HttpResponseRedirect(reverse('index'))
@@ -278,7 +294,6 @@ def view_buscador(request):
     else:
         usuario = None
     context = {'titulo': 'Cercador | Apibooks, la teva pàgina de llibres', 'user': usuario}
-    print request.method
     if request.GET.get('genere'):
         context['libros'] = Libros.objects.filter(generos__nombre=request.GET.get('genere'))
     return render(request, 'front/buscador.html', context)
@@ -309,12 +324,24 @@ def view_api_buscador(request):
                 libro = libro.libro
             pasa = True
             if libro.id in libros_id:
-                print "existe este libro. id: {0}".format(libro.id)
                 pasa = False
-            else:
-                print "no existe este libro. id: {0}".format(libro.id)
             if pasa:
                 dict[str(i)] = {"titulo": libro.titulo, "portada": libro.imagen_perfil.url, "libro_id": libro.id}
             libros_id.append(libro.id)
             i += 1
     return HttpResponse(json.dumps(dict), content_type='aplication/json')
+
+
+@login_required()
+def view_editar_libro(request, libro_id):
+    libro = Libros.objects.get(pk=libro_id)
+    form = formPublicar(request.POST, instance=libro)
+    usuario = Usuarios.objects.get(usuario=request.user)
+    context = {'titulo': 'Publicar', 'form': form, 'user': usuario}
+    if libro.autor != usuario:
+        return HttpResponseRedirect(reverse('index'))
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('libros'))
+    return render(request, 'admin/nuevolibro.html', context)
