@@ -43,7 +43,7 @@ def view_index(request):
 def view_publicar(request):
     form = formPublicar(request.POST, request.FILES)
     usuario = Usuarios.objects.get(usuario=request.user)
-    context = {'titulo': 'Publicar', 'form': form, 'user': usuario}
+    context = {'titulo': 'Publicar llibre | Apibooks, la teva pàgina de llibres', 'form': form, 'user': usuario}
     print 'entra en publicar'
     if request.method == 'POST':
         print 'es post'
@@ -68,7 +68,7 @@ def view_publicar(request):
 def view_libros(request):
     usuario = Usuarios.objects.get(usuario=request.user)
     libros = Libros.objects.filter(autor=usuario)
-    context = {'titulo': 'Publicar', 'libros': libros, 'user': usuario}
+    context = {'titulo': 'Els meus llibres | Apibooks, la teva pàgina de llibres', 'libros': libros, 'user': usuario}
     return render(request, 'admin/libros.html', context)
 
 
@@ -82,7 +82,7 @@ def view_nuevo_cap(request, libro_id):
         siguiente_n_cap = siguiente_n_cap.num_capitulo + 1
     else:
         siguiente_n_cap = 1
-    context = {'titulo': 'Publicar', 'libro': libro, 'user': usuario, 'form': form, 'siguiente': siguiente_n_cap}
+    context = {'titulo': 'Afegir capítol | Apibooks, la teva pàgina de llibres', 'libro': libro, 'user': usuario, 'form': form, 'siguiente': siguiente_n_cap}
     if request.method == 'POST' and libro.autor == usuario:
         if libro.autor == usuario:
             print 'es mi libro'
@@ -123,7 +123,7 @@ def view_editar_cap(request, capitulo_id):
                 print form.errors
         else:
             return HttpResponseRedirect(reverse('index'))
-    context = {'titulo': 'Publicar', 'user': usuario, 'cap': cap, 'form': form}
+    context = {'titulo': 'Editar capítol | Apibooks, la teva pàgina de llibres', 'user': usuario, 'cap': cap, 'form': form}
     return render(request, 'admin/editarcap.html', context)
 
 
@@ -162,7 +162,7 @@ def view_borrar_libro(request, libro_id):
     if libro.autor == usuario:
         print libro.titulo + " - eliminado"
         Libros.objects.get(pk=libro_id).delete()
-    context = {'titulo': 'Publicar', 'libros': libros, 'user': usuario}
+    context = {'titulo': 'Borrar llibre | Apibooks, la teva pàgina de llibres', 'libros': libros, 'user': usuario}
     return HttpResponseRedirect(reverse('libros'))
 
 
@@ -171,7 +171,8 @@ def view_capitulos(request, libro_id):
     usuario = Usuarios.objects.get(usuario=request.user)
     libro = Libros.objects.get(pk=libro_id)
     caps = Capitulos.objects.filter(libro_id=libro_id)
-    context = {'titulo': 'Publicar', 'libro': libro, 'user': usuario, 'caps': caps}
+    titulo = "Capítols de {0} | Apibooks, la teva pàgina de llibres".format(libro.titulo)
+    context = {'titulo': titulo, 'libro': libro, 'user': usuario, 'caps': caps}
     return render(request, 'admin/listacaps.html', context)
 
 
@@ -206,7 +207,7 @@ def view_editar_cap(request, capitulo_id):
                 print form.errors
         else:
             return HttpResponseRedirect(reverse('index'))
-    context = {'titulo': 'Publicar', 'user': usuario, 'cap': cap, 'form': form}
+    context = {'titulo': 'Editar capítol | Apibooks, la teva pàgina de llibres', 'user': usuario, 'cap': cap, 'form': form}
     return render(request, 'admin/editarcap.html', context)
 
 
