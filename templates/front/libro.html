@@ -13,6 +13,7 @@
                     seguir.innerText = "Seguir"
                 }
             })
+
             $(".lista-caps").click(function () {
                 $(".lista-caps-inner").slideToggle()
                 var arrow = document.getElementById( "arrow");
@@ -76,17 +77,17 @@
                 </div>
             {% endif %}
             <div class="col-md-12 mt-3 nounderline pl-5">
-                <a href="#" class="lista-caps text-dark mb-2">Llistat de capítols <i class="fas fa-chevron-right ml-1 arrow-list" id="arrow"></i></a>
-                <div class="row lista-caps-inner">
-                    {% if  caps %}
+                {% if  caps %}
+                    <a href="#" class="lista-caps text-dark mb-2">Llistat de capítols <i class="fas fa-chevron-right ml-1 arrow-list" id="arrow"></i></a>
+                    <div class="row lista-caps-inner">
+
                         {% for cap in caps %}
                             <div class="col-md-6"><a href="{% url 'ver_cap' libro.id cap.num_capitulo %}">Capítol {{ cap.num_capitulo }}: {{ cap.titulo }}</a></div>
                         {% endfor %}
-
-                    {% else %}
-                        <div class="col-md text-center">Aquest llibre encara no te capítols</div>
-                    {% endif %}
-                </div>
+                    </div>
+                {% else %}
+                    <div class="col-md text-center">Aquest llibre encara no te capítols</div>
+                {% endif %}
             </div>
             <div class="col-md-12 comentaris mt-5">
                 <hr>

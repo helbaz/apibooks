@@ -5,25 +5,36 @@
     </script>
 {% endblock %}
 {% block body %}
-    <div class="container mt-5 mb-5 row">
-        <div class="p-5 w-50 m-auto user-form" align="center">
-            <form action="{% url 'login' %}" method="post" class="mb-3">
-                {% csrf_token %}
-                <div class="d-block form-group mt-2">
-                    <label for="username" class="float-left">Nom d'usuari</label>
-                    {{ form.username }}
+    <div class="row m-0">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="bg-primary-50 p-3 col-md-12 mb-5 text-center titulo" align="center">
+                    <h1 class="h1-perfil">inicia sessió</h1>
                 </div>
-                <div class="d-block form-group  mt-2">
-                    <label for="password" class="float-left">Contrasenya</label>
-                    {{ form.password }}
+            </div>
+        </div>
+        <div class="col-md-12" align="center">
+            <div class="container mb-5">
+                <div class="p-5 user-form">
+                    <form action="{% url 'login' %}" method="post" class="mb-3">
+                        {% csrf_token %}
+                        <div class="d-block form-group mt-2">
+                            <label for="username" class="float-left">Nom d'usuari</label>
+                            {{ form.username }}
+                        </div>
+                        <div class="d-block form-group  mt-2">
+                            <label for="password" class="float-left">Contrasenya</label>
+                            {{ form.password }}
+                        </div>
+                        {{ form.non_field_errors }}
+                        <div class="nounderline">
+                            <button type="submit" class="btn btn-default"><i class="fas fa-times mr-1"></i><a class="nounderline" href="{% url 'index' %}">Cancelar</a></button>
+                            <button type="submit" class="btn btn-primary"></i><i class="fas fa-check mr-1"></i>Entrar</button>
+                        </div>
+                    </form>
+                    <span>No tens compte? <a href="{% url 'registre' %}">Registra't</a></span>
                 </div>
-                {{ form.non_field_errors }}
-                <div class="nounderline">
-                    <button type="submit" class="btn btn-default"><i class="fas fa-times mr-1"></i><a class="nounderline" href="{% url 'index' %}">Cancelar</a></button>
-                    <button type="submit" class="btn btn-primary"></i><i class="fas fa-check mr-1"></i>Entrar</button>
-                </div>
-            </form>
-            <span>No tens compte? <a href="{% url 'registre' %}">Registrat</a></span>
+            </div>
         </div>
     </div>
 {% endblock %}

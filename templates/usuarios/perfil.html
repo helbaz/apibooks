@@ -8,13 +8,13 @@
     <div class="row perfil m-0">
         <div class="col-md-12">
             <div class="row">
-                <div class="w-50 bg-primary-50 p-3 col-md-12 mb-5" align="center">
+                <div class="bg-primary-50 p-3 col-md-12 mb-5 titulo" align="center">
                     <h1 class="h1-perfil">Editar perfil</h1>
                 </div>
             </div>
         </div>
         <div class="col-md-12">
-            <div class="p-5 w-50 m-auto user-form" align="center">
+            <div class="p-5 m-auto user-form" align="center">
                 <form action="{% url 'perfil' %}" method="post" class="mb-3" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="d-block form-group mt-2">
@@ -23,6 +23,10 @@
                     </div>
                     <div class="d-block form-group mt-2">
                         <label for="imagen" class="float-left">Imatge de perfil</label><br>
+                        <div class="responsive-img-container" align="center">
+                            <img src="{{ user.imagen_perfil.url }}" class="responsive-img">
+                        </div>
+                        <br>
                         <input type="file" name="imagen_perfil" id="id_imagen_perfil">
                     </div>
                     <button class="btn btn-primary"><i class="far fa-edit mr-1"></i>Actualitzar</button>

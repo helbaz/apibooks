@@ -36,3 +36,12 @@ class formListaCaps(forms.ModelForm):
     class Meta:
         model = Libros
         fields = "__all__"
+
+
+class formEditarLibro(forms.ModelForm):
+    class Meta:
+        model = Libros
+        fields = ('titulo', 'generos', 'descripcion', 'imagen_perfil')
+        widgets = {
+            'generos': forms.CheckboxSelectMultiple,
+        }

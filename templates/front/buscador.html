@@ -1,6 +1,6 @@
 {% extends 'base_home.html' %}
 {% block scripts %}
-<script>
+    <script>
         $("#buscar").click(function () {
             buscar()
         });
@@ -37,38 +37,48 @@
     </script>
 {% endblock %}
 {% block body %}
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-9 pr-1 pl-1">
-                <input type="text" name="searchbar" id="searchbar" class="form-control" placeholder="Buscar...">
-
-            </div>
-            <div class="col-md-2 pr-1 pl-1">
-                <select name="type" id="type" class="form-control ml-1 ">
-                    <option value="titulo_libro" selected>Títol llibre</option>
-                    <option value="titulo_cap">Títol capítol</option>
-                    <option value="genero">Gènere</option>
-                    <option value="autor">Autor</option>
-                </select>
-            </div>
-            <div class="col-md-1 pr-1 pl-1">
-                <button id="buscar" class="btn btn-primary"><i class="fas fa-search"></i></button>
-            </div>
-            <div class="col-md-12 mt-4">
-                <div class="row" id="resultados">
-                    {% if libros %}
-                        {% for libro in libros %}
-                            <div class="col-md-4 text-center">
-                                <div class="responsive-img-container" align="center">
-                                    <img src="{{ libro.imagen_perfil.url }}" class="responsive-img">
-                                </div>
-                                <h3><a class="text-dark" href="{% url 'ver_libro' libro.id %}">{{ libro.titulo }}</a></h3>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
+    <div class="row m-0">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="bg-primary-50 p-3 col-md-12 mb-5 titulo" align="center">
+                    <h1 class="h1-perfil">Buscar llibre</h1>
                 </div>
             </div>
         </div>
+        <div class="col-md-12">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-9 mt-2">
+                        <input type="text" name="searchbar" id="searchbar" class="form-control" placeholder="Buscar...">
+                    </div>
+                    <div class="col-md-2 mt-2">
+                        <select name="type" id="type" class="form-control">
+                            <option value="titulo_libro" selected>Títol llibre</option>
+                            <option value="titulo_cap">Títol capítol</option>
+                            <option value="genero">Gènere</option>
+                            <option value="autor">Autor</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1 mt-2">
+                        <button id="buscar" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <div class="row" id="resultados">
+                            {% if libros %}
+                                {% for libro in libros %}
+                                    <div class="col-md-4 text-center">
+                                        <div class="responsive-img-container" align="center">
+                                            <img src="{{ libro.imagen_perfil.url }}" class="responsive-img">
+                                        </div>
+                                        <h3><a class="text-dark" href="{% url 'ver_libro' libro.id %}">{{ libro.titulo }}</a></h3>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+        </div>
     </div>
 {% endblock %}

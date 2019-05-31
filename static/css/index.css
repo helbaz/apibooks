@@ -15,7 +15,9 @@
     width: 50px;
     height: 50px;
 }
-
+#logo{
+    height: 50px;
+}
 .chapter-list:not(:first-child) {
     padding: 0;
 }
@@ -30,6 +32,19 @@ li:not(:first-child) > div > div {
 }
 .body {
   min-height: calc(100vh - 320px);
+}
+#id_generos *{
+    list-style: none;
+}
+#id_generos > li {
+    display: inline-block;
+    padding: 5px 10px;
+}
+#id_generos > li:not(:last-child){
+    border-right: 1px solid gray;
+}
+.titulo{
+    width: 100% !important;
 }
 footer {
   height: 250px;

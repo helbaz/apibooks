@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
-
+from django.forms.models import model_to_dict
 from .models import *
 from usuarios.models import *
 from .forms import *
@@ -110,7 +110,6 @@ def view_editar_cap(request, capitulo_id):
         if cap.libro.autor == usuario:
             print 'es mi libro'
             if form.is_valid():
-                print form.cleaned_data.get('titulo')
                 print 'form ok'
                 titulo = form.cleaned_data.get('titulo').encode('utf-8')
                 num_capitulo = form.cleaned_data.get('num_capitulo')
@@ -126,6 +125,33 @@ def view_editar_cap(request, capitulo_id):
             return HttpResponseRedirect(reverse('index'))
     context = {'titulo': 'Publicar', 'user': usuario, 'cap': cap, 'form': form}
     return render(request, 'admin/editarcap.html', context)
+
+
+# @login_required()
+# def view_editar_cap(request, capitulo_id):
+#     usuario = Usuarios.objects.get(usuario=request.user)
+#     cap = Capitulos.objects.get(pk=capitulo_id)
+#     form = formEditarCapitulo(request.POST, instance=cap)
+#     if request.method == 'POST':
+#         if cap.libro.autor == usuario:
+#             print 'es mi libro'
+#             if form.is_valid():
+#                 print form.cleaned_data.get('titulo')
+#                 print 'form ok'
+#                 titulo = form.cleaned_data.get('titulo').encode('utf-8')
+#                 num_capitulo = form.cleaned_data.get('num_capitulo')
+#                 contenido = request.POST.get('contenido')
+#                 cap.titulo = titulo
+#                 cap.num_capitulo = num_capitulo
+#                 cap.contenido = contenido
+#                 cap.save()
+#                 return HttpResponseRedirect(reverse('index'))
+#             else:
+#                 print form.errors
+#         else:
+#             return HttpResponseRedirect(reverse('index'))
+#     context = {'titulo': 'Publicar', 'user': usuario, 'cap': cap, 'form': form}
+#     return render(request, 'admin/editarcap.html', context)
 
 
 @login_required()
@@ -335,13 +361,14 @@ def view_api_buscador(request):
 @login_required()
 def view_editar_libro(request, libro_id):
     libro = Libros.objects.get(pk=libro_id)
-    form = formPublicar(request.POST, instance=libro)
+    formulario = formEditarLibro(request.POST, request.FILES, instance=libro)
+
     usuario = Usuarios.objects.get(usuario=request.user)
-    context = {'titulo': 'Publicar', 'form': form, 'user': usuario}
+    context = {'titulo': 'Editar llibre | Apibooks, la teva pàgina de llibres', 'form': formulario, 'user': usuario, 'libro': libro}
     if libro.autor != usuario:
         return HttpResponseRedirect(reverse('index'))
     if request.method == 'POST':
-        if form.is_valid():
-            form.save()
+        if formulario.is_valid():
+            formulario.save()
             return HttpResponseRedirect(reverse('libros'))
-    return render(request, 'admin/nuevolibro.html', context)
+    return render(request, 'admin/editarlibro.html', context)

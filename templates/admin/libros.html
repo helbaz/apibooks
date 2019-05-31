@@ -15,14 +15,16 @@
                 <div class="llista-llibres col-md-12">
                     {% for libro in libros %}
                         <div class="row mb-3">
-                            <div class="col-md-2" align="center">
+                            <div class="col-md-6" align="center">
                                 <div class="responsive-img-container">
                                     <a href="{% url 'ver_libro' libro.id %}"><img class="responsive-img" src="/media/{{ libro.imagen_perfil }}" alt="{{ libro.titulo }}"></a>
                                 </div>
                             </div>
-                            <div class="col-md-4 text-center pt-5">{{ libro.titulo }}</div>
-                            <div class="col-md-6 pt-5">
-                                <a href="{% url 'editar_libro' libro.id %}" class="btn btn-primary"><i class="fas fa-list mr-1"></i>Editar llibre</a>
+                            <div class="col-md-6 pl-2 pr-2 text-center pt-5">
+                                <h2 class="bookheader">{{ libro.titulo }}</h2>
+                            </div>
+                            <div class="col-md-12" align="center">
+                                <a href="{% url 'editar_libro' libro.id %}" class="btn btn-primary"><i class="fas fa-edit"></i>Editar llibre</a>
                                 <a href="{% url 'lista_caps' libro.id %}" class="btn btn-primary"><i class="fas fa-list mr-1"></i>Lista capítols</a>
                                 <a href="{% url 'nuevo_cap' libro.id %}" class="btn btn-primary"><i class="fas fa-plus mr-1"></i>Afegir un capítol</a>
                                 <a href="{% url 'borrar_libro' libro.id %}" class="btn btn-danger borrar-llibre"><i class="fas fa-trash mr-1"></i>Eliminar llibre</a>
