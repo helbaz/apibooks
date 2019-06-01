@@ -13,12 +13,14 @@ from django.shortcuts import render
 from .forms import *
 
 
-# View para registrar usuarios
+# View per registrar usuaris
 def view_registre(request):
     form = formRegistre(request.POST)
+    # si ja he iniciat sessió retorno a l'index
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse('index'))
     context = {'form': form, 'title': 'Registrat | Apibooks, la teva pàgina de llibres'}
+    # si es post i el formulari està bé creo l'usuari
     if request.method == 'POST':
         if form.is_valid():
             form.save()
@@ -31,11 +33,14 @@ def view_registre(request):
             return HttpResponseRedirect(reverse('index'))
     return render(request, 'usuarios/regitro.html', context)
 
+
+# view per editar el nom de l'usuari i la imatge de perfil
 @login_required()
 def view_perfil(request):
     user = Usuarios.objects.get(usuario=request.user)
     form = formPerfil(request.POST, request.FILES, instance=user)
     context = {'form': form, 'titulo': 'Editar perfil | Apibooks, la teva pàgina de llibres', 'user': user}
+    # si es post i el formulari està bé edito el perfil de l'usuari
     if request.method == 'POST':
         print form.errors
         if form.is_valid():
@@ -43,11 +48,13 @@ def view_perfil(request):
             return HttpResponseRedirect(reverse('index'))
     return render(request, 'usuarios/perfil.html', context)
 
+# view per veure els llibres que segueixo
 @login_required()
 def view_mis_libros(request):
     user = Usuarios.objects.get(usuario=request.user)
     libros_seguidos = LibrosSeguidos.objects.filter(usuario=user)
     dict = {}
+    # si segueixo 1 o més llibres els fico dins d'un diccionari
     if libros_seguidos.count() > 0:
         i = 0
         for libro_seguido in libros_seguidos:

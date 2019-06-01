@@ -1,35 +1,39 @@
 {% extends 'base_home.html' %}
 {% block scripts %}
     <script>
+        //Executa la funció buscar() quan es premi el botò o al quan premi enter
         $("#buscar").click(function () {
-            buscar()
+            buscar();
         });
         $("#searchbar").keyup(function (e) {
 
             if(e.which === 13){
-                buscar()
+                buscar();
             }
 
-        })
+        });
+        //Busca tots els llibres a partir de un filtre (titol, nom capitol, autor o gènere del llibre
         function buscar() {
+            //guardo el text y el tipus de busqueda
             var type = $("#type option:selected").val();
             var q = $("#searchbar").val();
+            //Si no busca res no fara res
             if (q == "" || type == ""){
-                $("#resultados").children().remove()
-                return false
+                $("#resultados").children().remove();
+                return false;
             }
+            //crida a una API i retorna tots els llibres trobats, després s'afegira els resultats al div de resultats
             $.get( "/cercador/cerca?type="+type+"&q="+q, function( data ) {
-                console.log(data);
-                $("#resultados").children().remove()
-                $.each(data, function(index,element){console.log("entra")
-                    var div = $("<div class=\"col-md-4 text-center\">")
-                    var link = $("<a class=\"text-dark\" href=\"/llibre/"+element.libro_id+"\">")
-                    var img = $("<div class=\"responsive-img-container\">")
-                    img.append("<img src=\""+element.portada+"\" class=\"responsive-img cancel-animation\">")
-                    link.append(img)
-                    link.append("<h3>"+element.titulo+"</h3>")
-                    div.append(link)
-                    $("#resultados").append(div)
+                $("#resultados").children().remove();
+                $.each(data, function(index,element){
+                    var div = $("<div class=\"col-md-4 text-center\">");
+                    var link = $("<a class=\"text-dark\" href=\"/llibre/"+element.libro_id+"\">");
+                    var img = $("<div class=\"responsive-img-container\">");
+                    img.append("<img src=\""+element.portada+"\" class=\"responsive-img cancel-animation\">");
+                    link.append(img);
+                    link.append("<h3>"+element.titulo+"</h3>");
+                    div.append(link);
+                    $("#resultados").append(div);
 
                 })
             });

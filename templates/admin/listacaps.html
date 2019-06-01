@@ -1,6 +1,7 @@
 {% extends 'base_home.html' %}
 {% block scripts %}
-<script>
+    <script>
+        //Utilitzo el DataTables en la taula de capítols
         $(".table").DataTable({
             "columnDefs": [
                 { "orderable": false, "targets": 2 }
@@ -27,12 +28,13 @@
                     "sSortDescending": ": Ordenar de manera descendent"
                 }
             }
+        });
+        //Missatge de si estàs segur de que vols borrar el llibre
+        $(".borrar-cap").click(function () {
+            var borrar = confirm("Estas segur que vols borrar el capítol?")
+            if (borrar) return true;
+            else return false;
         })
-    $(".borrar-cap").click(function () {
-        var borrar = confirm("Estas segur que vols borrar el capítol?")
-        if (borrar) return true
-        else return false
-    })
     </script>
 {% endblock %}
 {% block body %}

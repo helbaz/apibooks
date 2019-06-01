@@ -1,37 +1,41 @@
 {% extends 'base_home.html' %}
 {% block scripts %}
 <script>
+        //Canvia de capítol per el que ha tria el usuari
         $("#capitols").change(function () {
-            num = $("#capitols option:selected").val()
+            num = $("#capitols option:selected").val();
             window.location.href = "/llibre/{{ libro.id }}/"+num;
         })
+        //comprova si segueixo el llibre per posar un estil al botó de seguir
         $(document).ready(function () {
             $.get( "/llibre/seguir/status?libro={{ libro.id }}", function( data ) {
-                console.log(data)
                 var seguir = document.getElementById( "follow");
                 if (data.type=="1"){
-                    seguir.className = "btn btn-success ml-4"
-                    seguir.innerText = "Deixar de seguir"
+                    seguir.className = "btn btn-success ml-4";
+                    seguir.innerText = "Deixar de seguir";
                 } else {
-                    seguir.className = "btn btn-warning ml-4"
-                    seguir.innerText = "Seguir"
+                    seguir.className = "btn btn-warning ml-4";
+                    seguir.innerText = "Seguir";
                 }
             })
         })
+        //funcio per afegir llibres a la meva biblioteca
+        //llibre.id el dona el servidor
         $("#follow").click(function () {
             $.get( "/llibre/seguir?libro={{ libro.id }}&cap={{ cap.num_capitulo }}", function( data ) {
                 //1= ya no sigo, 2= sigo
-                console.log(data)
                 var seguir = document.getElementById( "follow");
-                console.log(seguir.className)
-                seguir.className = (seguir.className=="btn btn-success ml-4")?"btn btn-warning ml-4":"btn btn-success ml-4"
-                seguir.innerText = (seguir.innerText=="Seguir")?"Deixar de seguir":"Seguir"
+                console.log(seguir.className);
+                //Canvio el estil del botó
+                seguir.className = (seguir.className=="btn btn-success ml-4")?"btn btn-warning ml-4":"btn btn-success ml-4";
+                seguir.innerText = (seguir.innerText=="Seguir")?"Deixar de seguir":"Seguir";
+                //1= ya no segueixo, 2= segueixo
                 if (data.type === "1"){
-                    $(this).class = "btn btn-warning"
+                    $(this).class = "btn btn-warning";
                     $(this).html("Seguir")
                 } else if (data.type === "2"){
-                    $(this).class = "btn btn-success"
-                    $(this).html("Deixar de seguir")
+                    $(this).class = "btn btn-success";
+                    $(this).html("Deixar de seguir");
                 }
             });
         })

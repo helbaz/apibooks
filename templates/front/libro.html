@@ -2,40 +2,42 @@
 {% block scripts %}
     <script>
         $(document).ready(function () {
-            $(".lista-caps-inner").hide()
+            //Amago el llistat de capítols
+            $(".lista-caps-inner").hide(;
+            //funció per fer el desplegament de la llista de capítols
+            $(".lista-caps").click(function () {
+                $(".lista-caps-inner").slideToggle();
+                var arrow = document.getElementById( "arrow");
+                arrow.className = (arrow.className=="fas fa-chevron-right ml-1 arrow-list arrow-list-changed")?"fas fa-chevron-right ml-1 arrow-list":"fas fa-chevron-right ml-1 arrow-list arrow-list-changed";
+                return false;
+            });
+            //comprova si segueixo el llibre per posar un estil al botó de seguir
             $.get( "/llibre/seguir/status?libro={{ libro.id }}", function( data ) {
                 var seguir = document.getElementById( "follow");
                 if (data.type=="1"){
-                    seguir.className = "btn btn-success ml-4"
-                    seguir.innerText = "Deixar de seguir"
+                    seguir.className = "btn btn-success ml-4";
+                    seguir.innerText = "Deixar de seguir";
                 } else {
-                    seguir.className = "btn btn-warning ml-4"
-                    seguir.innerText = "Seguir"
+                    seguir.className = "btn btn-warning ml-4";
+                    seguir.innerText = "Seguir";
                 }
             })
-
-            $(".lista-caps").click(function () {
-                $(".lista-caps-inner").slideToggle()
-                var arrow = document.getElementById( "arrow");
-                console.log(arrow.className)
-                arrow.className = (arrow.className=="fas fa-chevron-right ml-1 arrow-list arrow-list-changed")?"fas fa-chevron-right ml-1 arrow-list":"fas fa-chevron-right ml-1 arrow-list arrow-list-changed"
-                return false;
-            })
         })
+        //funcio per afegir llibres a la meva biblioteca
+        //llibre.id el dona el servidor
         $("#follow").click(function () {
             $.get( "/llibre/seguir?libro={{ libro.id }}", function( data ) {
-                //1= ya no sigo, 2= sigo
-                console.log(data)
                 var seguir = document.getElementById( "follow");
-                console.log(seguir.className)
-                seguir.className = (seguir.className=="btn btn-success ml-4")?"btn btn-warning ml-4":"btn btn-success ml-4"
-                seguir.innerText = (seguir.innerText=="Seguir")?"Deixar de seguir":"Seguir"
+                //Canvio el estil del botó
+                seguir.className = (seguir.className=="btn btn-success ml-4")?"btn btn-warning ml-4":"btn btn-success ml-4";
+                seguir.innerText = (seguir.innerText=="Seguir")?"Deixar de seguir":"Seguir";
+                //1= ya no segueixo, 2= segueixo
                 if (data.type === "1"){
-                    $(this).class = "btn btn-warning"
+                    $(this).class = "btn btn-warning";
                     $(this).html("Seguir")
                 } else if (data.type === "2"){
-                    $(this).class = "btn btn-success"
-                    $(this).html("Deixar de seguir")
+                    $(this).class = "btn btn-success";
+                    $(this).html("Deixar de seguir");
                 }
             });
         })

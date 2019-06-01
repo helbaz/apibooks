@@ -1,6 +1,7 @@
 {% extends 'base_home.html' %}className
 {% block scripts %}
     <script>
+
         tinymce.init({
             selector: '#id_contenido',
             themes: "modern",
@@ -8,8 +9,9 @@
             toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
             height: 300
         });
-        $("#id_titulo").addClass("form-control ml-1")
-        $("#id_num_capitulo").addClass("form-control ml-1").val({{ siguiente }})
+        //Afegeixo les clases de bootstrap als inputs
+        $("#id_titulo").addClass("form-control ml-1");
+        $("#id_num_capitulo").addClass("form-control ml-1").val({{ siguiente }});
     </script>
 {% endblock %}
 {% block body %}

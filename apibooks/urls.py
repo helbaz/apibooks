@@ -25,7 +25,7 @@ from django.contrib.auth import views as auth_views
 from libros.views import *
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    #url(r'^admin/', admin.site.urls),
     url(r'^$', view_redirect_index, name='redirect_index'),
     url(r'^home$', view_index, name='index'),
     url(r'^registre$', view_registre, name='registre'),
